@@ -30,7 +30,9 @@ class Login
 			$compare = json_decode($value['json']);
 		  if($compare->user == $user && $compare->pass == $this->encrypt($pass)){
 				$user_data = json_encode(array("user" => $user, "pass" => $pass));
-				$this->token = "The token is: ".$this->encrypt($user_data);
+				$string = array("token" => $this->encrypt($user_data), "hour" => date("H:i:s"), "limit" => date("H:i:s", strtotime('+30 minutes')));
+				$this->token = json_encode($string);
+				//$this->token = "The token is: ".$this->encrypt($user_data);
 			}
 		}
 
