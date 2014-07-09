@@ -19,7 +19,7 @@ class Login
 
 	public function validate_login($con, $user, $pass)
 	{
-		$query = "SELECT * FROM user";
+		$query = "SELECT id,login,pass,birthday,json FROM user WHERE login = '$user'";
 		$result = mysqli_query($con, $query) or die ('error on query');
 
 		while($data = mysqli_fetch_assoc($result)){
@@ -28,11 +28,11 @@ class Login
 
 		foreach($rows as $value){
 			$compare = json_decode($value['json']);
-		  if($compare->user == $user && $compare->pass == $this->encrypt($pass)){
+		  if($compare->pass == $this->encrypt($pass)){
 				$user_data = json_encode(array("user" => $user, "pass" => $pass));
-				$string = array("token" => $this->encrypt($user_data), "hour" => date("H:i:s"), "limit" => date("H:i:s", strtotime('+30 minutes')));
-				$this->token = json_encode($string);
-				//$this->token = "The token is: ".$this->encrypt($user_data);
+				$this->token = array("token" => $this->encrypt($user_data), "hour" => date("H:i:s"), "limit" => date("H:i:s", strtotime('+30 minutes')));
+			} else {
+				$this->token = "Error o password incorrectos";
 			}
 		}
 
@@ -55,7 +55,7 @@ class Login
 		mcrypt_generic_init($mcrypt_module, $key, $long);
 		//Crypting
 		$encrypted = mcrypt_generic($mcrypt_module, $field);
-		//Terminar el manejador de encriptacion
+		//finish the crypt manager
 		mcrypt_module_close($mcrypt_module);
 
 		return base64_encode($encrypted);

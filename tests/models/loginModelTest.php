@@ -6,12 +6,14 @@ class LoginTest extends PHPUnit_Framework_TestCase
 {
 	public $test_token;
 
+	/*
 	public function  test_validate_login_test()
 	{
 		$obj = new Login('root', 'dba');
 		$this->test_token = $obj->token;
-		$this->assertTrue($this->test_token == $obj->token);
+		$this->assertTrue($this->);
 	}
+	*/
 
 	public function test_create_token()
 	{

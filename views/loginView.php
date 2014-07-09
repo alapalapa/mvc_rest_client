@@ -1,7 +1,7 @@
 <?php
 
 
-echo $obj->token;
+echo json_encode($obj->token);
 
 
 ?>
